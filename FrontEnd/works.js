@@ -1,6 +1,11 @@
 // Getting the JSON file of all the works from the API
 const works = await fetch("http://localhost:5678/api/works").then(works => works.json());
-const categories = await fetch("http://localhost:5678/api/categories").then(categories => categories.json());
+
+// Unique categories list creation
+const categories = works.map(work => work.category)
+const uniqueCategories = new Set(categories.map(JSON.stringify));
+const uniqueCategroriesArray = Array.from(uniqueCategories);
+const categoriesList = uniqueCategroriesArray.map(JSON.parse);
 
 // Function to create the gallery with all the works
 function generateGallery(works){
@@ -22,8 +27,55 @@ function generateGallery(works){
         workFigure.appendChild(imageElement);
         workFigure.appendChild(figcaptionElement);
 
-     }
+    }
 }
 
 generateGallery(works);
 
+
+// Function to create the filters
+function generateFilters(categoriesList){
+
+    // Generating button to display all the projects
+    const filters = document.querySelector(".filters");
+    const filterAll = document.createElement("button");
+    filterAll.innerText = "Tous";
+    filterAll.className="filter all";
+    filters.appendChild(filterAll);
+
+    // Generating a button for each unique category
+    for (let i = 0; i < categoriesList.length; i++) {
+
+        const category = categoriesList[i];
+        const filters = document.querySelector(".filters");
+        const filterButton = document.createElement("button");
+        filterButton.innerText = category.name;
+        filterButton.className = `filter id${category.id}`;
+
+        filters.appendChild(filterButton);
+    }
+}
+
+generateFilters(categoriesList);
+
+
+// Button click event to show all projects
+const filter = document.querySelector(".all");
+filter.addEventListener("click", function () {
+    document.querySelector(".gallery").innerHTML = "";
+    generateGallery(works)
+});
+
+// Button click events to show filtered projects for each category
+for (let i = 0; i < categoriesList.length; i++) {
+    const category = categoriesList[i];
+    const filter = document.querySelector(`.id${category.id}`);
+
+    filter.addEventListener("click", function () {
+        const filteredWorks = works.filter(function (work) {
+            return work.category.id === category.id;
+        });
+        document.querySelector(".gallery").innerHTML = "";
+        generateGallery(filteredWorks);
+    });
+};
