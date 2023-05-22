@@ -40,7 +40,7 @@ function generateFilters(categoriesList){
     const filters = document.querySelector(".filters");
     const filterAll = document.createElement("button");
     filterAll.innerText = "Tous";
-    filterAll.className="filter all";
+    filterAll.className="filter all selected";
     filters.appendChild(filterAll);
 
     // Generating a button for each unique category
@@ -64,6 +64,8 @@ const filter = document.querySelector(".all");
 filter.addEventListener("click", function () {
     document.querySelector(".gallery").innerHTML = "";
     generateGallery(works)
+    document.querySelector(".selected").classList.remove("selected");
+    document.querySelector(".all").classList.add("selected");
 });
 
 // Button click events to show filtered projects for each category
@@ -77,5 +79,7 @@ for (let i = 0; i < categoriesList.length; i++) {
         });
         document.querySelector(".gallery").innerHTML = "";
         generateGallery(filteredWorks);
+        document.querySelector(".selected").classList.remove("selected");
+        document.querySelector(`.id${category.id}`).classList.add("selected");
     });
 };
