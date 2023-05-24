@@ -83,3 +83,41 @@ for (let i = 0; i < categoriesList.length; i++) {
         document.querySelector(`.id${category.id}`).classList.add("selected");
     });
 };
+
+// Function to load the admin interface when logged in
+function adminInterface() {
+    if (sessionStorage.getItem("token") !== null) {
+        // Top admin menu creation
+        const publishTop = document.querySelector(".body");
+        const publish = document.createElement("div");
+        publish.className = "publish";
+        const editionMode = document.createElement("div");
+        const modifyIcon = document.createElement("i");
+        modifyIcon.className = "fa-regular fa-pen-to-square";
+        const edition = document.createElement("span");
+        edition.innerText = "Mode édition";
+        const buttonPublish = document.createElement("button");
+        buttonPublish.innerText = "publier les changements";
+        buttonPublish.className = "button-publish";
+
+        publishTop.prepend(publish);
+        publish.appendChild(editionMode);
+        editionMode.appendChild(modifyIcon.cloneNode(true));
+        editionMode.appendChild(edition);
+        publish.appendChild(buttonPublish);
+
+        // modify buttons creation
+        const modifyAction = document.createElement("div");
+        modifyAction.className = "modify";
+        const modify = document.createElement("span");
+        modify.innerText = "modifier";
+        modifyAction.appendChild(modifyIcon.cloneNode(true));
+        modifyAction.appendChild(modify.cloneNode(true));
+
+        const introduction = document.querySelector("#introduction");
+        introduction.appendChild(modifyAction.cloneNode(true));
+        document.querySelector(".projects").appendChild(modifyAction.cloneNode(true));
+    }
+}
+
+adminInterface();

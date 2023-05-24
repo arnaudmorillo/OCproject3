@@ -111,6 +111,8 @@ li:hover {
 #introduction {
 	display: flex;
 	align-items: center;
+	flex-wrap: wrap;
+	row-gap: 13px;
 }
 #introduction figure {
 	flex: 1
@@ -133,7 +135,6 @@ li:hover {
 }
 #portfolio h2 {
 	text-align: center;
-	margin-bottom: 1em;
 }
 
 /** Filter buttons **/
@@ -246,4 +247,70 @@ footer nav ul {
 	font-weight: 700;
 	height: 40px;
 	line-height: 40px;
+}
+
+.publish {
+	height: 59px;
+	width: calc(100vw - 20px);
+	margin-left: calc(-50vw + 50% + 10px);
+	background-color: black;
+	font-size: 16px;
+	font-family: 'Work Sans';
+	font-weight: 400;
+	color: white;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	gap: 21px;
+}
+
+.fa-pen-to-square {
+	margin-right: 8px;
+}
+
+.publish .fa-pen-to-square {
+	color: white;
+	height: 19px;
+	width: 19px;
+}
+
+.button-publish {
+	font-size: 14px;
+	font-family: 'Work Sans';
+	font-weight: 500;
+	color: black;
+	background-color: white;
+	padding: 11px 23px;
+	border-radius: 60px;
+	border-width: 0px;
+}
+
+.modify .fa-pen-to-square {
+	color: black;
+	height: 18px;
+	width: 18px;
+}
+
+.modify {
+	font-size: 14px;
+	font-family: 'Work Sans';
+	font-weight: 400;
+}
+
+#introduction .modify{
+	margin-right: 100%;
+	margin-left: 5%;
+	display:flex;
+	flex-direction: row;
+}
+
+.projects {
+	display: flex;
+	flex-direction: row;
+	align-items: baseline;
+	margin-bottom: 30px;
+	gap: 30px;
+	justify-content: center;
+	margin-left: 113.28px;
 }
