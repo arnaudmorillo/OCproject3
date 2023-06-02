@@ -36,8 +36,7 @@ function login() {
                 return response.json()
                 .then(function(data) {
                     sessionStorage.setItem("token", data.token);
-                    location.href = "index.html";
-                    console.log(sessionStorage.getItem("token"))
+                    location.href = "index.html"
                 })
             } else {
                 loginError()

@@ -1,12 +1,7 @@
 // Getting the JSON file of all the works from the API
 const works = await fetch("http://localhost:5678/api/works").then(works => works.json());
 
-// Unique categories list creation
-const categories = works.map(work => work.category)
-const uniqueCategories = new Set(categories.map(JSON.stringify));
-const uniqueCategroriesArray = Array.from(uniqueCategories);
-const categoriesList = uniqueCategroriesArray.map(JSON.parse);
-
+////////// Gallery //////////
 // Function to create the gallery with all the works
 function generateGallery(works){
     for (let i = 0; i < works.length; i++) {
@@ -32,6 +27,13 @@ function generateGallery(works){
 
 generateGallery(works);
 
+
+////////// Filters //////////
+// Unique categories list creation
+const categories = works.map(work => work.category)
+const uniqueCategories = new Set(categories.map(JSON.stringify));
+const uniqueCategroriesArray = Array.from(uniqueCategories);
+const categoriesList = uniqueCategroriesArray.map(JSON.parse);
 
 // Function to create the filters
 function generateFilters(categoriesList){
@@ -84,6 +86,7 @@ for (let i = 0; i < categoriesList.length; i++) {
     });
 };
 
+////////// Admin interface //////////
 // Function to load the admin interface when logged in
 function adminInterface() {
     if (sessionStorage.getItem("token") !== null) {
@@ -107,17 +110,30 @@ function adminInterface() {
         publish.appendChild(buttonPublish);
 
         // modify buttons creation
-        const modifyAction = document.createElement("div");
+        const modifyAction = document.createElement("button");
         modifyAction.className = "modify";
         const modify = document.createElement("span");
         modify.innerText = "modifier";
         modifyAction.appendChild(modifyIcon.cloneNode(true));
         modifyAction.appendChild(modify.cloneNode(true));
 
-        const introduction = document.querySelector("#introduction");
-        introduction.appendChild(modifyAction.cloneNode(true));
+        document.querySelector("#introduction").appendChild(modifyAction.cloneNode(true));
         document.querySelector(".projects").appendChild(modifyAction.cloneNode(true));
+        // adding a class for the gallery modification button
+        document.querySelector(".projects .modify").classList.add("gallery-button");
     }
 }
 
 adminInterface();
+
+
+////////// Popup modal for gallery modification //////////
+// modal popup
+const modal = document.querySelector(".modal");
+
+document.querySelector(".gallery-button").addEventListener("click", () => {
+ modal.showModal();
+});
+document.querySelector(".close").addEventListener("click", () => {
+   modal.close();
+ });
