@@ -1,5 +1,6 @@
+
 // Getting the JSON file of all the works from the API
-const works = await fetch("http://localhost:5678/api/works").then(works => works.json());
+var works = await fetch("http://localhost:5678/api/works").then(works => works.json());
 
 ////////// Gallery //////////
 // Function to create the gallery with all the works
@@ -30,18 +31,19 @@ generateGallery(works);
 
 
 ////////// Filters //////////
-// Unique categories list creation
-const categories = works.map(work => work.category)
-const uniqueCategories = new Set(categories.map(JSON.stringify));
-const uniqueCategroriesArray = Array.from(uniqueCategories);
-const categoriesList = uniqueCategroriesArray.map(JSON.parse);
-
 // Function to create the filters
-function generateFilters(categoriesList){
+function generateFilters(works){
+
+    // Unique categories list creation
+    var categories = works.map(work => work.category)
+    var uniqueCategories = new Set(categories.map(JSON.stringify));
+    var uniqueCategroriesArray = Array.from(uniqueCategories);
+    var categoriesList = uniqueCategroriesArray.map(JSON.parse);
+
 
     // Generating button to display all the projects
-    const filters = document.querySelector(".filters");
-    const filterAll = document.createElement("button");
+    var filters = document.querySelector(".filters");
+    var filterAll = document.createElement("button");
     filterAll.innerText = "Tous";
     filterAll.className="filter all selected";
     filters.appendChild(filterAll);
@@ -49,43 +51,43 @@ function generateFilters(categoriesList){
     // Generating a button for each unique category
     for (let i = 0; i < categoriesList.length; i++) {
 
-        const category = categoriesList[i];
-        const filters = document.querySelector(".filters");
-        const filterButton = document.createElement("button");
+        var category = categoriesList[i];
+        var filters = document.querySelector(".filters");
+        var filterButton = document.createElement("button");
         filterButton.innerText = category.name;
         filterButton.className = `filter id${category.id}`;
 
         filters.appendChild(filterButton);
     }
-}
+    // Button click events to show filtered projects for each category
+    for (let i = 0; i < categoriesList.length; i++) {
+        let category = categoriesList[i];
+        let filter = document.querySelector(`.id${category.id}`);
+        let filteredWorks = works.filter(function (work) {
+            return work.category.id === category.id;
+        });
 
-generateFilters(categoriesList);
-
-
-// Button click event to show all projects
-const filter = document.querySelector(".all");
-filter.addEventListener("click", function () {
+        filter.addEventListener("click", function () {
+            document.querySelector(".gallery").innerHTML = "";
+            generateGallery(filteredWorks);
+            document.querySelector(".selected").classList.remove("selected");
+            document.querySelector(`.id${category.id}`).classList.add("selected");
+        });
+    };
+    // Button click event to show all projects
+    var filter = document.querySelector(".all");
+    filter.addEventListener("click", function () {
     document.querySelector(".gallery").innerHTML = "";
-    generateGallery(works)
+    generateGallery(works);
     document.querySelector(".selected").classList.remove("selected");
     document.querySelector(".all").classList.add("selected");
 });
 
-// Button click events to show filtered projects for each category
-for (let i = 0; i < categoriesList.length; i++) {
-    const category = categoriesList[i];
-    const filter = document.querySelector(`.id${category.id}`);
+}
 
-    filter.addEventListener("click", function () {
-        const filteredWorks = works.filter(function (work) {
-            return work.category.id === category.id;
-        });
-        document.querySelector(".gallery").innerHTML = "";
-        generateGallery(filteredWorks);
-        document.querySelector(".selected").classList.remove("selected");
-        document.querySelector(`.id${category.id}`).classList.add("selected");
-    });
-};
+generateFilters(works);
+
+
 
 ////////// Admin interface //////////
 // Function to load the admin interface when logged in
@@ -132,7 +134,7 @@ adminInterface();
 // modal popup
 const modal = document.querySelector(".modal");
 
-function generateGalleryEdit(works){
+async function generateGalleryEdit(){
     for (let i = 0; i < works.length; i++) {
 
         let article = works[i];
@@ -176,11 +178,15 @@ function generateGalleryEdit(works){
                 },
             }
             );
-            if (response == 200) {
-            return false;
-            // if HTTP-status is 200-299
-            //alert("Photo supprimé avec succes");
-            // obtenir le corps de réponse (la méthode expliquée ci-dessous)
+            // If a work is deleted, the gallery, gallery edition and filters are updated
+            if (response.ok) {
+            return works = await fetch("http://localhost:5678/api/works").then(works => works.json()),
+                document.querySelector(".gallery").innerHTML = "",
+                generateGallery(works),
+                document.querySelector(".gallery-edit").innerHTML="",
+                generateGalleryEdit(),
+                document.querySelector(".filters").innerHTML="",
+                generateFilters(works);
             } else {
             alert("Echec de suppression");
             }
@@ -188,16 +194,17 @@ function generateGalleryEdit(works){
     }
 }
 
+// Event on click to open gallery edition
 document.querySelector(".gallery-button").addEventListener("click", () => {
     modal.showModal();
     document.querySelector(".gallery-edit").innerHTML="";
-    generateGalleryEdit(works);
+    generateGalleryEdit();
 });
+//Closing gallery edition by clicking the cross icon
 document.querySelector(".close").addEventListener("click", () => {
-   modal.close();
+modal.close();
 });
-
-// Closing modal when clisking outside of it
+// Closing gallery edition by clicking outside of it
 modal.addEventListener("click", event => {
     const rect = modal.getBoundingClientRect();
     if (event.clientY < rect.top || event.clientY > rect.bottom ||
@@ -206,3 +213,6 @@ modal.addEventListener("click", event => {
     }
 });
 
+
+
+////////// Form to add a new project //////////
