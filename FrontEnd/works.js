@@ -6,15 +6,16 @@ const works = await fetch("http://localhost:5678/api/works").then(works => works
 function generateGallery(works){
     for (let i = 0; i < works.length; i++) {
 
-        const article = works[i];
+        let article = works[i];
         // Selecting where the works should be displayed
-        const gallery = document.querySelector(".gallery");
+        let gallery = document.querySelector(".gallery");
         // Work figure tag creation
-        const workFigure = document.createElement("figure");
+        let workFigure = document.createElement("figure");
         // Work content creation
-        const imageElement = document.createElement("img");
+        let imageElement = document.createElement("img");
         imageElement.src = article.imageUrl;
-        const figcaptionElement = document.createElement("figcaption");
+        imageElement.alt = article.title;
+        let figcaptionElement = document.createElement("figcaption");
         figcaptionElement.innerText = article.title;
         
         // Appending the elements in the gallery
@@ -131,9 +132,77 @@ adminInterface();
 // modal popup
 const modal = document.querySelector(".modal");
 
+function generateGalleryEdit(works){
+    for (let i = 0; i < works.length; i++) {
+
+        let article = works[i];
+        // Selecting where the works should be displayed
+        let gallery = document.querySelector(".gallery-edit");
+        // Work figure tag creation
+        let workFigure = document.createElement("figure");
+        // Work content creation
+        let imageElement = document.createElement("img");
+        imageElement.src = article.imageUrl;
+        imageElement.alt = article.title;
+        let figcaptionElement = document.createElement("figcaption");
+        figcaptionElement.innerText = "éditer";
+        const deleteIcon = document.createElement("i");
+        deleteIcon.className = "fa-solid fa-trash-can";
+
+        workFigure.style.position = "relative";
+        deleteIcon.style.position = "absolute";
+        deleteIcon.style.top = "6px";
+        deleteIcon.style.right = "6px";
+        
+        // Appending the elements in the gallery
+        gallery.appendChild(workFigure);
+        workFigure.appendChild(imageElement);
+        workFigure.appendChild(figcaptionElement);
+        workFigure.appendChild(deleteIcon);
+
+        // Button to delete a project
+        deleteIcon.addEventListener("click", async (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            let deleteid = article.id;
+            let myToken = sessionStorage.getItem("token");
+            console.log(deleteid);
+            let response = await fetch(`http://localhost:5678/api/works/${deleteid}`, 
+            {
+                method: "DELETE",
+                headers: {
+                    accept: "*/*",
+                    Authorization: `Bearer ${myToken}`,
+                },
+            }
+            );
+            if (response == 200) {
+            return false;
+            // if HTTP-status is 200-299
+            //alert("Photo supprimé avec succes");
+            // obtenir le corps de réponse (la méthode expliquée ci-dessous)
+            } else {
+            alert("Echec de suppression");
+            }
+        });
+    }
+}
+
 document.querySelector(".gallery-button").addEventListener("click", () => {
- modal.showModal();
+    modal.showModal();
+    document.querySelector(".gallery-edit").innerHTML="";
+    generateGalleryEdit(works);
 });
 document.querySelector(".close").addEventListener("click", () => {
    modal.close();
- });
+});
+
+// Closing modal when clisking outside of it
+modal.addEventListener("click", event => {
+    const rect = modal.getBoundingClientRect();
+    if (event.clientY < rect.top || event.clientY > rect.bottom ||
+        event.clientX < rect.left || event.clientX > rect.right) {
+        modal.close();
+    }
+});
+

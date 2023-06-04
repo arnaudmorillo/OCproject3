@@ -23,25 +23,31 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 }
+
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
+
 body {
 	line-height: 1;
 }
+
 ol, ul {
 	list-style: none;
 }
+
 blockquote, q {
 	quotes: none;
 }
+
 blockquote:before, blockquote:after,
 q:before, q:after {
 	content: '';
 	content: none;
 }
+
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
@@ -63,11 +69,13 @@ body {
 	font-size: 14px;
 	min-height: 800px;
 }
+
 header {
 	display: flex;
 	justify-content: space-between;
 	margin: 50px 0
 }
+
 section {
 	margin: 50px 0
 }
@@ -85,7 +93,6 @@ h1 > span {
 	font-family: 'Work Sans';
 	font-size:10px;
 	letter-spacing: 0.1em;
-;
 }
 
 h2{
@@ -94,6 +101,7 @@ h2{
 	font-size: 30px;
 	color: #1D6154
 }
+
 nav ul {
 	display: flex;
 	align-items: center;
@@ -108,15 +116,18 @@ nav li {
 li:hover {
 	color: #B1663C;
 }
+
 #introduction {
 	display: flex;
 	align-items: center;
 	flex-wrap: wrap;
 	row-gap: 13px;
 }
+
 #introduction figure {
 	flex: 1
 }
+
 #introduction img {
 	display: block;
 	margin: auto;
@@ -126,6 +137,7 @@ li:hover {
 #introduction article {
 	flex: 1
 }
+
 #introduction h2 {
 	margin-bottom: 1em;
 }
@@ -133,6 +145,7 @@ li:hover {
 #introduction p {
 	margin-bottom: 0.5em;
 }
+
 #portfolio h2 {
 	text-align: center;
 }
@@ -177,19 +190,21 @@ li:hover {
 
 .gallery img {
 	width: 100%;
-
 }
+
 #contact, #login {
 	width: 50%;
-margin: auto;
+	margin: auto;
 }
+
 #contact > *, #login > * {
 	text-align: center;
-
 }
+
 #contact h2, #login h2{
 	margin-bottom: 20px;
 }
+
 #contact form, #login form {
 	text-align: left;
 	margin-top:30px;
@@ -203,9 +218,11 @@ margin: auto;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
+
 #contact label, #login label {
 	margin: 2em 0 1em 0;
 }
+
 #contact textarea {
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
@@ -315,4 +332,107 @@ footer nav ul {
 	gap: 30px;
 	justify-content: center;
 	margin-left: 113.28px;
+}
+
+/* Modal */
+.modal::backdrop {
+	background: rgba(0, 0, 0, 0.3);
+}
+
+.modal {
+	width: 630px;
+	height: fit-content;
+	background: #FFFFFF;
+	border-radius: 10px;
+	border: none;
+	padding: 26px 30px 48px 30px;
+}
+
+.modal .close {
+	border: none;
+	background: none;
+	display: block;
+	margin-left: auto;
+	margin-right: 0;
+	width: 24px;
+	height: 24px;
+}
+
+.modal .fa-xmark {
+	font-size: 19px;
+}
+
+.modal h2 {
+	font-size: 26px;
+	font-family: 'Work Sans';
+	font-weight: 400;
+	line-height: 30px;
+	text-align: center;
+	color: #000000;
+	margin-top: 10px;
+	margin-bottom: 46px;
+}
+
+.modal .gallery-edit {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+	row-gap: 13px;
+	column-gap: 10px;
+	max-width: calc(630px - 105px - 105px);
+	margin: auto;
+}
+
+.modal .gallery-edit img {
+	display: block;
+	width: 100%;
+}
+
+.modal .gallery-edit .fa-trash-can {
+	font-size: 9px;
+	color:white;
+	width: 17px;
+	height: 17px;
+	border-radius: 2px;
+	background-color: #000000;
+	text-align: center;
+	line-height: 17px;
+}
+
+.modal .gallery-edit figcaption {
+	font-size: 12px;
+	font-family: 'Work Sans';
+	font-weight: 400;
+	line-height: 14.08px;
+	margin-top: 2.43px;
+}
+
+.modal .line {
+	border: 1px solid #B3B3B3;
+	width: 420px;
+	margin: 47px auto 0px auto;
+}
+
+.modal .add-picture {
+	font-size: 14px;
+	font-family: 'Syne';
+	font-weight: 700;
+	display: block;
+	background-color: #1D6154;
+	border-radius: 60px;
+	border-style: none;
+	color:white;
+	margin: 38px auto 23px auto;
+	width: 237px;
+	height: 36px;
+}
+
+.modal .delete-gallery {
+	font-size: 14px;
+	font-family: 'Syne';
+	font-weight: 400;
+	display: block;
+	background: none;
+	border: none;
+	color:#D65353;
+	margin: auto;
 }
