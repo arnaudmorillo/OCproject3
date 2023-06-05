@@ -334,35 +334,56 @@ footer nav ul {
 	margin-left: 113.28px;
 }
 
-/* Modal */
-.modal::backdrop {
+/*//////// Modal gallery edition and add a new project ////////*/
+.modal::backdrop, .add-project::backdrop {
 	background: rgba(0, 0, 0, 0.3);
 }
 
-.modal {
+.modal, .add-project {
 	width: 630px;
-	height: fit-content;
 	background: #FFFFFF;
 	border-radius: 10px;
 	border: none;
-	padding: 26px 30px 48px 30px;
 }
 
-.modal .close {
+.modal {
+	padding: 26px 30px 48px 30px;
+	height: fit-content;
+}
+
+.add-project {
+	padding: 26px 30px 55px 30px;
+	height: 670px;
+}
+
+.modal .close, .add-project .close-add, .add-project .return {
 	border: none;
 	background: none;
-	display: block;
-	margin-left: auto;
-	margin-right: 0;
 	width: 24px;
 	height: 24px;
 }
 
-.modal .fa-xmark {
+.modal .close {
+	display: block;
+	margin-left: auto;
+	margin-right: 0;
+}
+
+.add-project-nav {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.fa-xmark {
 	font-size: 19px;
 }
 
-.modal h2 {
+.fa-arrow-left-long {
+	font-size: 19px;
+}
+
+.modal h2, .add-project h2 {
 	font-size: 26px;
 	font-family: 'Work Sans';
 	font-weight: 400;
@@ -371,6 +392,14 @@ footer nav ul {
 	color: #000000;
 	margin-top: 10px;
 	margin-bottom: 46px;
+}
+
+.modal h2 {
+	margin-bottom: 46px;
+}
+
+.add-project h2 {
+	margin-bottom: 36px;
 }
 
 .modal .gallery-edit {
@@ -406,7 +435,7 @@ footer nav ul {
 	margin-top: 2.43px;
 }
 
-.modal .line {
+.line {
 	border: 1px solid #B3B3B3;
 	width: 420px;
 	margin: 47px auto 0px auto;
@@ -435,4 +464,83 @@ footer nav ul {
 	border: none;
 	color:#D65353;
 	margin: auto;
+}
+
+/*////////// Form to upload a new project //////////*/
+.image-upload {
+	width: 420px;
+	height: 169px;
+	border-radius: 3px;
+	background-color: #E8F1F7;
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-bottom: 30px;
+}
+.fa-image {
+	font-size: 46px;
+	color: #B9C5CC;
+	margin: 28px 0px 21px 0px;
+}
+.image-upload #loadPicture {
+	width: 173px;
+	height: 36px;
+	background-color: #CBD6DC;
+	border-radius: 50px;
+	color: #306685;
+	font-family: 'Work Sans';
+	font-weight: 500;
+	font-size: 14px;
+	border-style: none;
+}
+.image-upload p {
+	color: #444444;
+	font-family: 'Work Sans';
+	font-weight: 400;
+	font-size: 10px;
+	line-height: 12px;
+	margin-top: 7px;
+}
+#picture {
+	display: none;
+}
+
+.form-input {
+	border-bottom: 1px solid #B3B3B3;
+	width: 420px;
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+}
+
+.form-input label {
+	font-family: 'Work Sans';
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 16px;
+	color: #3D3D3D;
+	margin-bottom: 10px;
+}
+.form-input #title, .form-input #category {
+	height: 51px;
+	background-color: #FFFFFF;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	border-style: none;
+}
+.form-input #title {
+	margin-bottom: 21px;
+}
+
+.add-project input[type="submit"]{
+	font-family: 'Syne';
+	font-weight: 700;
+	color: white;
+	background-color: #A7A7A7;
+	margin : 32px auto 0px auto ;
+	width: 237px;
+	text-align: center;
+	border-radius: 60px ;
+	border-style: none;
+	height: 36px;
 }

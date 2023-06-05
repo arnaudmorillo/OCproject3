@@ -202,7 +202,7 @@ document.querySelector(".gallery-button").addEventListener("click", () => {
 });
 //Closing gallery edition by clicking the cross icon
 document.querySelector(".close").addEventListener("click", () => {
-modal.close();
+    modal.close();
 });
 // Closing gallery edition by clicking outside of it
 modal.addEventListener("click", event => {
@@ -216,3 +216,22 @@ modal.addEventListener("click", event => {
 
 
 ////////// Form to add a new project //////////
+const modalAdd = document.querySelector(".add-project");
+
+// Event on click to open gallery edition
+document.querySelector(".add-picture").addEventListener("click", () => {
+    modal.close();
+    modalAdd.showModal();
+});
+// Closing gallery edition by clicking outside of it
+modalAdd.addEventListener("click", event => {
+    const rectAdd = modalAdd.getBoundingClientRect();
+    if ((event.clientY < rectAdd.top || event.clientY > rectAdd.bottom ||
+        event.clientX < rectAdd.left || event.clientX > rectAdd.right) &&
+        event.target !== document.querySelector("#category")) {
+        modalAdd.close();
+    }
+});
+document.querySelector(".close-add").addEventListener("click", () => {
+    modalAdd.close();
+});
