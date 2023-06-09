@@ -40,35 +40,45 @@
 		</section>
 		<!--Modal for gallery edition-->
 		<dialog class="modal">
-			<button class="close"><i class="fa-solid fa-xmark"></i></button>
-			<h2>Galerie photo</h2>
-			<div class="gallery-edit"></div>
-			<button class="add-picture">Ajouter une photo</button>
-			<button class="delete-gallery">Supprimer la galerie</button>
+			<div class="modal-div">
+				<button class="close"><i class="fa-solid fa-xmark"></i></button>
+				<h2>Galerie photo</h2>
+				<div class="gallery-edit"></div>
+				<button class="add-picture">Ajouter une photo</button>
+				<button class="delete-gallery">Supprimer la galerie</button>
+			</div>
 		</dialog>
 		<!--Modal to add new project-->
 		<dialog class="add-project">
-			<div class="add-project-nav">
-				<button class="return"><i class="fa-solid fa-arrow-left-long"></i></button>
-				<button class="close-add"><i class="fa-solid fa-xmark"></i></button>
+			<div class="add-project-div">
+				<div class="add-project-nav">
+					<button class="return"><i class="fa-solid fa-arrow-left-long"></i></button>
+					<button class="close-add"><i class="fa-solid fa-xmark"></i></button>
+				</div>
+				<h2>Ajout Photo</h2>
+				<form action="#" method="post">
+					<div class="image-upload">
+						<div class="image-shown">
+							<i class="fa-regular fa-image"></i>
+							<input type="button" id="loadPicture" value="+ Ajouter photo"/>
+							<input type="file" id="picture" name="imageUrl" accept="image/png, image/jpeg" required>
+							<p>jpg, png : 4Mo max</p>
+						</div>
+						<div class="show-image">
+							<img class="selected-image" src="" alt="">
+						</div>
+					</div>
+					<div class="form-input">
+						<label for="title">Titre</label>
+						<input type="text" name="title" id="title" required>
+						<label for="categoryId">Catégorie</label>
+						<select name="categoryId" id="category" required>
+							<option class="blank-option" value="" disabled selected></option>
+						</select>
+					</div>
+					<input id="send-request" type="submit" value="Valider">
+				</form>
 			</div>
-			<h2>Ajout Photo</h2>
-			<form action="#" method="post">
-				<div class="image-upload">
-					<i class="fa-regular fa-image"></i>
-					<input type="button" id="loadPicture" value="+ Ajouter photo" onclick="document.getElementById('picture').click();" />
-					<input type="file" id="picture" name="picture" accept="image/png, image/jpeg" required>
-					<p>jpg, png : 4Mo max</p>
-				</div>
-				<div class="form-input">
-					<label for="title">Titre</label>
-					<input type="text" name="title" id="title" required>
-					<label for="category">Catégorie</label>
-					<select name="category" id="category" required>
-					</select>
-				</div>
-				<input type="submit" value="Valider">
-			</form>
 		</dialog>
 		<section id="portfolio">
 			<div class="projects"><h2>Mes Projets</h2></div>

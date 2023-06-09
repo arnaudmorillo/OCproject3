@@ -346,16 +346,26 @@ footer nav ul {
 	border: none;
 }
 
-.modal {
+.modal, .add-project {
 	box-sizing: border-box;
-	padding: 26px 30px 48px 30px;
 	height: fit-content;
+	padding: 0px;
 }
 
-.add-project {
+.modal-div {
 	box-sizing: border-box;
-	padding: 26px 30px 55px 30px;
+	width: 630px;
+	border-radius: 10px;
 	height: fit-content;
+	padding: 26px 30px 48px 30px;
+}
+
+.add-project-div {
+	box-sizing: border-box;
+	width: 630px;
+	border-radius: 10px;
+	height: fit-content;
+	padding: 26px 30px 55px 30px;
 }
 
 .modal .close, .add-project .close-add, .add-project .return {
@@ -471,10 +481,12 @@ footer nav ul {
 	border-radius: 3px;
 	background-color: #E8F1F7;
 	margin: auto;
+	margin-bottom: 30px;
+}
+.image-shown {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin-bottom: 30px;
 }
 .fa-image {
 	font-size: 46px;
@@ -530,6 +542,15 @@ footer nav ul {
 .form-input #title {
 	margin-bottom: 21px;
 }
+.form-input input[type="text"], .form-input select {
+	font-family: 'Work Sans';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 16px;
+	color: #444444;
+	padding-left: 16px;
+}
 
 .add-project input[type="submit"]{
 	font-family: 'Syne';
@@ -543,4 +564,20 @@ footer nav ul {
 	border-style: none;
 	height: 36px;
 	display: block;
+}
+
+.show-image {
+	display: none;
+	height: inherit;
+	width: inherit;
+}
+.selected-image {
+	max-height: inherit;
+	max-width: inherit;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.blank-option {
+	display: none;
 }

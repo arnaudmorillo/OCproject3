@@ -1,6 +1,7 @@
 
 // Getting the JSON file of all the works from the API
 var works = await fetch("http://localhost:5678/api/works").then(works => works.json());
+var categoriesUploaded = await fetch("http://localhost:5678/api/categories").then(categoriesUploaded => categoriesUploaded.json());
 
 ////////// Gallery //////////
 // Function to create the gallery with all the works
@@ -142,14 +143,17 @@ async function generateGalleryEdit(){
         let gallery = document.querySelector(".gallery-edit");
         // Work figure tag creation
         let workFigure = document.createElement("figure");
+        workFigure.className = "modal-click-outside";
         // Work content creation
         let imageElement = document.createElement("img");
         imageElement.src = article.imageUrl;
         imageElement.alt = article.title;
+        imageElement.className = "modal-click-outside";
         let figcaptionElement = document.createElement("figcaption");
         figcaptionElement.innerText = "éditer";
+        figcaptionElement.className = "modal-click-outside";
         const deleteIcon = document.createElement("i");
-        deleteIcon.className = "fa-solid fa-trash-can";
+        deleteIcon.className = "modal-click-outside fa-solid fa-trash-can";
 
         workFigure.style.position = "relative";
         deleteIcon.style.position = "absolute";
@@ -168,7 +172,6 @@ async function generateGalleryEdit(){
             e.stopPropagation();
             let deleteid = article.id;
             let myToken = sessionStorage.getItem("token");
-            console.log(deleteid);
             let response = await fetch(`http://localhost:5678/api/works/${deleteid}`, 
             {
                 method: "DELETE",
@@ -206,9 +209,7 @@ document.querySelector(".close").addEventListener("click", () => {
 });
 // Closing gallery edition by clicking outside of it
 modal.addEventListener("click", event => {
-    const rect = modal.getBoundingClientRect();
-    if (event.clientY < rect.top || event.clientY > rect.bottom ||
-        event.clientX < rect.left || event.clientX > rect.right) {
+    if(event.target === event.currentTarget) {
         modal.close();
     }
 });
@@ -217,21 +218,153 @@ modal.addEventListener("click", event => {
 
 ////////// Form to add a new project //////////
 const modalAdd = document.querySelector(".add-project");
+const inputFile = document.querySelector("#picture");
 
 // Event on click to open gallery edition
 document.querySelector(".add-picture").addEventListener("click", () => {
     modal.close();
     modalAdd.showModal();
+    generateSelect();
+    selectedImage.src = "";
+    imageOff.style.display = "flex";
+    imageOn.style.display = "none";
+    inputFile.value = "";
+    sendRequest.style.background = "#A7A7A7";
 });
 // Closing gallery edition by clicking outside of it
 modalAdd.addEventListener("click", event => {
-    const rectAdd = modalAdd.getBoundingClientRect();
-    if ((event.clientY < rectAdd.top || event.clientY > rectAdd.bottom ||
-        event.clientX < rectAdd.left || event.clientX > rectAdd.right) &&
-        event.target !== document.querySelector("#category")) {
+    if(event.target === event.currentTarget) {
         modalAdd.close();
     }
 });
+// Closing the form to add a new project when clicking on the cross
 document.querySelector(".close-add").addEventListener("click", () => {
     modalAdd.close();
 });
+// Return to gallery edition when clicking left arrow
+document.querySelector(".return").addEventListener("click", () => {
+    modalAdd.close();
+    modal.showModal();
+});
+
+// Form to add a new project
+document.querySelector("#loadPicture").addEventListener("click", event => {
+    if(event.target === event.currentTarget) {
+        inputFile.click();
+    }
+})
+
+const imageOff = document.querySelector(".image-shown");
+const imageOn = document.querySelector(".show-image");
+const selectedImage = document.querySelector(".selected-image");
+
+// Display of image chosen
+inputFile.addEventListener("change", () => {
+    let [file] = inputFile.files;
+    
+    if(inputFile.files[0].size > 4 * 1024 * 1024){
+        alert("La photo dépasse 4Mo!");
+        inputFile.value = "";
+    } else {
+        if(inputFile.value === "") {
+            imageOff.style.display = "flex";
+            imageOn.style.display = "none";
+        } else {
+            imageOff.style.display = "none";
+            imageOn.style.display = "flex";
+            if (file) {
+                selectedImage.src = URL.createObjectURL(file)
+            };
+            // if other inputs are filled, change submit style
+            if(newProjectCat.value !== ""
+            && newProjectTitle.value !== "") {
+                sendRequest.style.background = "#1D6154";
+            }
+        }
+    }
+});
+
+// Function to generate the options in the category select input
+function generateSelect() {
+    let select = document.querySelector("#category");
+    select.innerHTML = "";
+    let blank = document.createElement("option");
+    blank.value = "";
+    blank.className = "blank-option";
+    blank.setAttribute("selected", "");
+    blank.setAttribute("disabled", "");
+    select.appendChild(blank);
+
+    for(let i = 0;i < categoriesUploaded.length;i++) {
+        let cat =categoriesUploaded[i];
+        let option = document.createElement("option");
+        option.value = cat.id;
+        option.innerText = cat.name;
+
+        select.appendChild(option);
+    }
+}
+
+// Sending form to add new project
+const sendRequest = document.querySelector("#send-request");
+const newProjectTitle = document.querySelector("#title");
+const newProjectCat = document.querySelector("#category");
+
+// Title, if other inputs are filled, change submit style
+newProjectTitle.addEventListener("change", () => {
+    if(newProjectTitle.value === "") {
+        sendRequest.style.background = "#A7A7A7";
+    }
+    if(inputFile.files.length !== 0
+        && newProjectTitle.value !== ""
+        && newProjectCat.value !== "") {
+            sendRequest.style.background = "#1D6154";
+        }
+});
+
+// Title, if other inputs are filled, change submit style
+newProjectCat.addEventListener("change", () => {
+    if(inputFile.files.length !== 0
+        && newProjectTitle.value !== ""
+        && newProjectCat.value !== "") {
+            sendRequest.style.background = "#1D6154";
+        }
+});
+
+async function postRequest(inputs) {
+    await fetch("http://localhost:5678/api/works", {
+    method: "POST",
+    headers: {
+        //"accept" : "application/json",
+        "Authorization" : `Bearer ${sessionStorage.getItem("token")}`,
+        //"Content-Type": "multipart/form-data"
+    },
+    body: inputs
+    })
+    .then(response => response.json())
+}
+
+sendRequest.addEventListener("click", (event) => {
+    event.preventDefault();
+    if(inputFile.files.length !== 0
+    && newProjectTitle.value !== ""
+    && newProjectCat.value !== "") {
+        // Send new project to database
+        const formData = new FormData();
+        formData.append("image", inputFile.files[0]);
+        formData.append("title", newProjectTitle.value);
+        formData.append("category", parseInt(newProjectCat.value));
+
+        postRequest(formData);
+
+
+        // Checking response status and either store the token or warn user of incorrect email or password
+        
+
+
+
+
+    } else {
+        alert("Le formulaire d'ajout de projet n'est pas complet. Merci de remplir tous les champs: Photo, Titre et Catégorie.")
+    }
+})
