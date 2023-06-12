@@ -216,7 +216,7 @@ modal.addEventListener("click", event => {
 
 
 
-////////// Form to add a new project //////////
+////////// Navigation between gallery edition and form to add a new project //////////
 const modalAdd = document.querySelector(".add-project");
 const inputFile = document.querySelector("#picture");
 
@@ -229,6 +229,7 @@ document.querySelector(".add-picture").addEventListener("click", () => {
     imageOff.style.display = "flex";
     imageOn.style.display = "none";
     inputFile.value = "";
+    newProjectTitle.value = "";
     sendRequest.style.background = "#A7A7A7";
 });
 // Closing gallery edition by clicking outside of it
@@ -247,10 +248,34 @@ document.querySelector(".return").addEventListener("click", () => {
     modal.showModal();
 });
 
-// Form to add a new project
+
+////////// Form to add a new project //////////
+
+// This code handels the automatic closure of <dialog> when input file dialog is closed without choosing a file
+// This automatic closure appears only on Chrome
+var dialogopen = false;
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+async function wait(){
+    await sleep(100);
+    if(!(modalAdd.open)){
+        modalAdd.showModal();
+    }
+};
+
+window.addEventListener('focus', () => {
+    if (dialogopen) {
+        wait();
+        dialogopen = false;
+    }
+});
+
 document.querySelector("#loadPicture").addEventListener("click", event => {
     if(event.target === event.currentTarget) {
         inputFile.click();
+        dialogopen = true;
     }
 })
 
@@ -264,6 +289,9 @@ inputFile.addEventListener("change", () => {
     
     if(inputFile.files[0].size > 4 * 1024 * 1024){
         alert("La photo dépasse 4Mo!");
+        inputFile.value = "";
+    } else if (!inputFile.files[0].name.match(/\.(jpg|jpeg|png)$/i)) {
+        alert("Le fichier sélectionné n'est pas une image.");
         inputFile.value = "";
     } else {
         if(inputFile.value === "") {
@@ -322,7 +350,7 @@ newProjectTitle.addEventListener("change", () => {
         }
 });
 
-// Title, if other inputs are filled, change submit style
+// Category, if other inputs are filled, change submit style
 newProjectCat.addEventListener("change", () => {
     if(inputFile.files.length !== 0
         && newProjectTitle.value !== ""
@@ -331,8 +359,11 @@ newProjectCat.addEventListener("change", () => {
         }
 });
 
+
+////////// Function to send POST request for a new project //////////
+
 async function postRequest(inputs) {
-    await fetch("http://localhost:5678/api/works", {
+    let response = await fetch("http://localhost:5678/api/works", {
     method: "POST",
     headers: {
         //"accept" : "application/json",
@@ -341,11 +372,32 @@ async function postRequest(inputs) {
     },
     body: inputs
     })
-    .then(response => response.json())
+
+    // if reponse ok, close modal for new project and open modal for gallery edition
+    // and update main gallery, filters and gallery edition
+    if (response.ok) {
+        return works = await fetch("http://localhost:5678/api/works").then(works => works.json()),
+        modalAdd.close(),
+        modal.showModal(),
+        document.querySelector(".gallery").innerHTML = "",
+        generateGallery(works),
+        document.querySelector(".gallery-edit").innerHTML="",
+        generateGalleryEdit(),
+        document.querySelector(".filters").innerHTML="",
+        generateFilters(works);
+
+    // if response 401, user token is incorrect. User has to log in again.  
+    } else if (response.status == 401) {
+        location.href = "login.html";
+        alert("Votre session a expiré. Veuillez vous reconnecter pour ajouter un projet.");
+    } else {
+        alert("Erreur serveur!");
+    }
 }
 
 sendRequest.addEventListener("click", (event) => {
     event.preventDefault();
+    // Request sent only if all fields are filled
     if(inputFile.files.length !== 0
     && newProjectTitle.value !== ""
     && newProjectCat.value !== "") {
@@ -357,14 +409,7 @@ sendRequest.addEventListener("click", (event) => {
 
         postRequest(formData);
 
-
-        // Checking response status and either store the token or warn user of incorrect email or password
-        
-
-
-
-
     } else {
         alert("Le formulaire d'ajout de projet n'est pas complet. Merci de remplir tous les champs: Photo, Titre et Catégorie.")
     }
-})
+});

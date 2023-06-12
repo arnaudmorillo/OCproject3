@@ -19,9 +19,9 @@
 		<a href="index.html"><h1>Sophie Bluel <span>Architecte d'intérieur</span></h1></a>
 		<nav>
 			<ul>
-				<a href="#portfolio"><li>projets</li></a>
-				<a href="#contact"><li>contact</li></a>
-				<a href="login.html"><li>login</li></a>
+				<li><a href="#portfolio">projets</a></li>
+				<li><a href="#contact">contact</a></li>
+				<li><a href="login.html">login</a></li>
 				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 			</ul>
 		</nav>
@@ -65,15 +65,15 @@
 							<p>jpg, png : 4Mo max</p>
 						</div>
 						<div class="show-image">
-							<img class="selected-image" src="" alt="">
+							<img class="selected-image" src="#" alt="">
 						</div>
 					</div>
 					<div class="form-input">
 						<label for="title">Titre</label>
 						<input type="text" name="title" id="title" required>
-						<label for="categoryId">Catégorie</label>
-						<select name="categoryId" id="category" required>
-							<option class="blank-option" value="" disabled selected></option>
+						<label for="category">Catégorie</label>
+						<select name="category" id="category" required>
+							<option class="blank-option" value="" disabled selected>Choisissez une catégorie</option>
 						</select>
 					</div>
 					<input id="send-request" type="submit" value="Valider">

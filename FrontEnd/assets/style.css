@@ -181,7 +181,9 @@ li:hover {
 }
 
 .gallery {
-	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 955px;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-column-gap: 20px;
@@ -190,6 +192,9 @@ li:hover {
 
 .gallery img {
 	width: 100%;
+	height: 100%;
+	max-height: 405px;
+	object-fit: cover;
 }
 
 #contact, #login {
@@ -417,8 +422,8 @@ footer nav ul {
 .modal .gallery-edit {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-	row-gap: 13px;
-	column-gap: 10px;
+	grid-row-gap: 13px;
+	grid-column-gap: 10px;
 	max-width: calc(630px - 105px - 105px);
 	margin: auto;
 	border-bottom: 1px solid #B3B3B3;
@@ -428,6 +433,9 @@ footer nav ul {
 .modal .gallery-edit img {
 	display: block;
 	width: 100%;
+	height: 100%;
+	max-height: 103px;
+	object-fit: cover;
 }
 
 .modal .gallery-edit .fa-trash-can {
