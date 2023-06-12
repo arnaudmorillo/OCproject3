@@ -2,7 +2,7 @@
 
 Ce repo contient le code frontend de l'architecte Sophie Bluel. 
 
-## Gallerie générée automatiquement via le backend
+## Galerie générée automatiquement via le backend
 
 ## Suppression de projets
 Pour supprimer un projet:
@@ -16,5 +16,5 @@ Pour ajouter un projet:
 - login administrateur
 - click sur le bouton modifier au dessus de la galerie
 - click sur le bouton "Ajouter une photo"
-- remplir le formaulaire d'ajout de photo
+- remplir le formulaire d'ajout de photo
 - click sur le bouton "Valider"
