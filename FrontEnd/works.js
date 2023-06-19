@@ -123,6 +123,19 @@ function adminInterface() {
       .appendChild(modifyAction.cloneNode(true));
     // adding a class for the gallery modification button
     document.querySelector(".projects .modify").classList.add("gallery-button");
+
+    // Change "login" to "logout" in the navigation
+    const userLogin = document.querySelector(".login");
+    const userLogout = document.querySelector(".logout");
+    
+    userLogin.style.display = "none";
+    userLogout.style.display = "inline";
+    
+    userLogout.addEventListener("click", function () {
+      sessionStorage.removeItem("token");
+      
+    });
+    
   }
 }
 
@@ -219,7 +232,7 @@ modal.addEventListener("click", (event) => {
 const modalAdd = document.querySelector(".add-project");
 const inputFile = document.querySelector("#picture");
 
-// Event on click to open gallery edition
+// Event on click to open add a new project
 document.querySelector(".add-picture").addEventListener("click", () => {
   modal.close();
   modalAdd.showModal();
